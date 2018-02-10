@@ -23,6 +23,11 @@ public class Tags {
      */
     public static final StringTag TEST_RESULT = new StringTag("test.result");
 
+    public static final String TEST_RESULT_SUCCESS = "SUCCESS";
+    public static final String TEST_RESULT_SKIPPED = "SKIPPED";
+    public static final String TEST_RESULT_FAILURE = "FAILURE";
+
+
     /**
      * TEST_ENVIRONMENT is the name of the test environment (QA, STAGING, PROD, ...).
      */
