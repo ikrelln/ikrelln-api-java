@@ -4,6 +4,11 @@ import io.opentracing.tag.StringTag;
 
 public class Tags {
     /**
+     * A constant for setting the span kind to indicate that it represents a test span.
+     */
+    public static final String SPAN_KIND_TEST = "test";
+
+    /**
      * TEST_SUITE is the name of the test suite. If not present, the local endpoint service name will be used.
      */
     public static final StringTag TEST_SUITE = new StringTag("test.suite");
@@ -23,16 +28,25 @@ public class Tags {
      */
     public static final StringTag TEST_RESULT = new StringTag("test.result");
 
-    public static final String TEST_RESULT_SUCCESS = "SUCCESS";
-    public static final String TEST_RESULT_SKIPPED = "SKIPPED";
-    public static final String TEST_RESULT_FAILURE = "FAILURE";
+    /**
+     * A constant for setting the test result to indicate that it represents a success.
+     */
+    public static final String TEST_RESULT_SUCCESS = "success";
 
+    /**
+     * A constant for setting the test result to indicate that it represents a skipped test.
+     */
+    public static final String TEST_RESULT_SKIPPED = "skipped";
+
+    /**
+     * A constant for setting the test result to indicate that it represents a failure.
+     */
+    public static final String TEST_RESULT_FAILURE = "failure";
 
     /**
      * TEST_ENVIRONMENT is the name of the test environment (QA, STAGING, PROD, ...).
      */
     public static final StringTag TEST_ENVIRONMENT = new StringTag("test.environment");
-
 
     /**
      * TEST_STEP_TYPE is the kind of step of the span in a test trace (assertion, setup, ...).
