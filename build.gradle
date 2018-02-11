@@ -4,6 +4,8 @@ version '0.1.0'
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 
@@ -18,14 +20,64 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 artifacts {
-    archives jar
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'i\'Krelln Open Tracing API'
+                packaging 'jar'
+                description 'Helpers to build span that will be parsed as tests by i\'Krelln'
+                url 'http://ikrelln.io/'
+
+                scm {
+                    connection 'scm:git:https://github.com/ikrelln/ikrelln-opentracing-api-java.git'
+                    developerConnection 'scm:git:https://github.com/ikrelln/ikrelln-opentracing-api-java.git'
+                    url 'https://github.com/ikrelln/ikrelln-opentracing-api-java'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'francois'
+                        name 'François Mockers'
+                        email 'mockersf@gmail.com'
+                    }
+                }
+            }
+        }
+    }
 }
