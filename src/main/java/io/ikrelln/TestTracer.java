@@ -25,7 +25,7 @@ public final class TestTracer {
      *
      */
     public static Tracer.SpanBuilder buildTestSpan(Tracer tracer, String testSuite, String testClass, String testName, String environment) {
-        Tracer.SpanBuilder spanBuilder = tracer.buildSpan(String.format("{} - {}", testClass, testName))
+        Tracer.SpanBuilder spanBuilder = tracer.buildSpan(String.format("%s - %s", testClass, testName))
                 .withTag(io.opentracing.tag.Tags.SPAN_KIND.getKey(), "test");
         if (testName != null)
             spanBuilder.withTag(Tags.TEST_NAME.getKey(), testName);
